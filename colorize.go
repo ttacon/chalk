@@ -18,7 +18,6 @@ type color struct {
 
 func (c *color) WithBackground(col Color) Color {
 	bg := col.Foreground(nil)
-	fmt.Println(bg)
 	c.Background(&bg)
 	return c
 }
