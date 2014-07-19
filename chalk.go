@@ -33,6 +33,39 @@ func (c Color) NewStyle() Style {
 	return &style{foreground: c}
 }
 
+type textStyleDemarcation int
+
+func (t textStyleDemarcation) String() string {
+	return fmt.Sprintf("\u001b[%dm", t)
+}
+
+// A TextStyle represents the ways we can style the text:
+// bold, dim, italic, underline, inverse, hidden or strikethrough.
+type TextStyle struct {
+	start, stop textStyleDemarcation
+}
+
+// TexStyle styles the given string the have the desired text style.
+func (t TextStyle) TextStyle(val string) string {
+	if t == emptyTextStyle {
+		return val
+	}
+	return fmt.Sprintf("%s%s%s", t.start, val, t.stop)
+}
+
+// NOTE: this function specifically does not work as desired because
+// text styles must be wrapped around the text they are meant to style.
+// As such, use TextStyle() or Style.Style() instead.
+func (t TextStyle) String() string {
+	return fmt.Sprintf("%s%s", t.start, t.stop)
+}
+
+// NewStyle creates a style starting with the current TextStyle
+// as it's text style.
+func (t TextStyle) NewStyle() Style {
+	return &style{textStyle: t}
+}
+
 // A Style is how we want our text to look in the console.
 // Consequently, we can set the foreground and background
 // to specific colors, we can style specific strings and
@@ -52,12 +85,15 @@ type Style interface {
 	// WithForeground allows us to set the foreground in a builder
 	// pattern style.
 	WithForeground(Color) Style
+	// WithStyle allows us to set the text style in a builder pattern
+	// style.
+	WithTextStyle(TextStyle) Style
 }
 
 type style struct {
 	foreground Color
 	background Color
-	// TODO(ttacon): add styles at some point (when we care enough about them)
+	textStyle  TextStyle
 }
 
 func (s *style) WithBackground(col Color) Style {
@@ -77,7 +113,7 @@ func (s *style) String() string {
 }
 
 func (s *style) Style(val string) string {
-	return fmt.Sprintf("%s%s%s", s, val, Reset)
+	return fmt.Sprintf("%s%s%s", s, s.textStyle.TextStyle(val), Reset)
 }
 
 func (s *style) Foreground(col Color) {
@@ -88,9 +124,13 @@ func (s *style) Background(col Color) {
 	s.background = col
 }
 
-var (
-	nine = 9
+func (s *style) WithTextStyle(textStyle TextStyle) Style {
+	s.textStyle = textStyle
+	return s
+}
 
+var (
+	// Colors
 	Black      = Color{0}
 	Red        = Color{1}
 	Green      = Color{2}
@@ -101,5 +141,19 @@ var (
 	White      = Color{7}
 	ResetColor = Color{9}
 
-	Reset = &style{ResetColor, ResetColor}
+	// Text Styles
+	Bold          = TextStyle{1, 22}
+	Dim           = TextStyle{2, 22}
+	Italic        = TextStyle{3, 23}
+	Underline     = TextStyle{4, 24}
+	Inverse       = TextStyle{7, 27}
+	Hidden        = TextStyle{8, 28}
+	Strikethrough = TextStyle{9, 29}
+
+	Reset = &style{
+		foreground: ResetColor,
+		background: ResetColor,
+	}
+
+	emptyTextStyle = TextStyle{}
 )
