@@ -13,6 +13,12 @@ Styles, Colors and TextStyles are more meant to be used to style specific
 text segments (i.e. ```fmt.Println(chalk.Red.Color("this is red")```) or
 ```fmt.Println(myStyle.Style("this is blue text that is underlined"))```).
 
+Examples
+=============
+
+There are a few examples in the examples directory if you want to see a very
+simplified version of what you can do with chalk.
+
 WARNING
 =============
 
