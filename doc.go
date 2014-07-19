@@ -3,6 +3,7 @@
 //
 //
 // Colors
+//
 // There are eight default colors: black, red, green, yellow, blue,
 // magenta, cyan and white. You can use them in two main ways
 // (note the need for the reset color if you don't use Color()):
@@ -12,6 +13,7 @@
 //
 //
 // TextStyles
+//
 // There are seven default text styles: bold, dim, italic, underline,
 // inverse, hidden and strikethrough. Unlike colors, you should only
 // really use TextStyles in the following manner:
@@ -20,6 +22,7 @@
 //
 //
 // Styles
+//
 // Styles are where all the business really is. Styles can have a
 // foreground color, a background color and a text style (sweet!).
 // They're also pretty simply to make, you just need a starting point:
@@ -51,6 +54,4 @@
 //
 // Have fun!
 //
-//
-
 package chalk
