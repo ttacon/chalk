@@ -9,7 +9,7 @@ type Color struct {
 }
 
 // Value returns the individual value for this color
-// (Actually it's really just it's index in the list
+// (Actually it's really just its index in the list
 // of color escape codes with the list being
 // [black, red, green, yellow, blue, magenta, cyan, white].
 func (c Color) Value() int {
@@ -17,7 +17,7 @@ func (c Color) Value() int {
 }
 
 // Color colors the foreground of the given string
-// (whatever the previou background color was, it is
+// (whatever the previous background color was, it is
 // left alone).
 func (c Color) Color(val string) string {
 	return fmt.Sprintf("%s%s%s", c, val, ResetColor)
@@ -45,7 +45,7 @@ type TextStyle struct {
 	start, stop textStyleDemarcation
 }
 
-// TexStyle styles the given string the have the desired text style.
+// TexStyle styles the given string using the desired text style.
 func (t TextStyle) TextStyle(val string) string {
 	if t == emptyTextStyle {
 		return val
@@ -61,7 +61,7 @@ func (t TextStyle) String() string {
 }
 
 // NewStyle creates a style starting with the current TextStyle
-// as it's text style.
+// as its text style.
 func (t TextStyle) NewStyle() Style {
 	return &style{textStyle: t}
 }
@@ -77,7 +77,7 @@ type Style interface {
 	Foreground(Color)
 	// Background sets the background of the style to the specific color.
 	Background(Color)
-	// Style styles the given string with the curreny style.
+	// Style styles the given string with the current style.
 	Style(string) string
 	// WithBackground allows us to set the background in a builder
 	// pattern style.
