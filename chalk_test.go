@@ -59,4 +59,25 @@ func TestStyle(t *testing.T) {
 			expected,
 			textStyle.Style("hello"))
 	}
+
+	// reset it
+	colStyle.Foreground(ResetColor)
+	colStyle.Background(ResetColor)
+	expected = "\u001b[49m\u001b[39m"
+	if colStyle.String() != expected {
+		t.Errorf("expected colStyle.String() to be %q, was %q",
+			expected,
+			colStyle.String())
+	}
+
+	builtStyle := colStyle.
+		WithForeground(Red).
+		WithBackground(Blue).
+		WithTextStyle(Underline)
+	expected = "\u001b[44m\u001b[31m\u001b[4mhello\u001b[24m\u001b[49m\u001b[39m"
+	if builtStyle.Style("hello") != expected {
+		t.Errorf("expected builtStyle.Style() to be %q, was %q",
+			expected,
+			builtStyle.Style("hello"))
+	}
 }
