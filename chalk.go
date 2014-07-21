@@ -88,6 +88,7 @@ type Style interface {
 	// WithStyle allows us to set the text style in a builder pattern
 	// style.
 	WithTextStyle(TextStyle) Style
+	String() string
 }
 
 type style struct {
