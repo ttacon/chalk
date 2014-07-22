@@ -57,4 +57,4 @@ Outputs
 WARNING
 =============
 
-This package should be pretty stable, but I'm not making any promises :)
+This package should be pretty stable (I don't forsee backwards incompatible changes), but I'm not making any promises :)
