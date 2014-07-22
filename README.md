@@ -47,6 +47,13 @@ func main() {
 	fmt.Println(
 		blueOnWhite.WithTextStyle(chalk.Bold).
 			Style("You can mix text styles with colors, too!"))
+
+	// You can also easily make styling functions thanks to go's functional side
+	lime := chalk.Green.NewStyle().
+		WithBackground(chalk.Black).
+		WithTextStyle(chalk.Bold).
+		Style
+	fmt.Println(lime("look at this cool lime text!"))
 }
 
 ```
