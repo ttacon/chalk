@@ -32,11 +32,11 @@
 //
 // When a color is your starting point for a style, it will be the
 // foreground color, when a style is your starting point, well, yeah,
-// it's your style's text style. You can also alter a styles, foreground
-// background or style in a builder-esque pattern.
+// it's your style's text style. You can also alter a style's foreground,
+// background or text style in a builder-esque pattern.
 //
 //   blueOnWhite := blue.WithBackground(chalk.White)
-//   awesomeness := blueOnWhite.WithTextStyle(chalk.Underline)
+//   awesomeness := blueOnWhite.WithTextStyle(chalk.Underline).WithForeground(chalk.Green)
 //
 // Like both Colors and TextStyles you can style specific segments of text
 // with:
@@ -49,8 +49,10 @@
 //   fmt.Println(awesomeness, "this is so pretty", chalk.Reset)
 //
 // Be aware though, that this (second) way of using styles will not add the
-// text style (as they require more specific end codes). So if you want
-// to fully utilize styles, use myStyle.Style().
+// text style (as text styles require more specific end codes). So if you want
+// to fully utilize styles, use myStyle.Style() (unless you only care about
+// print your text with a specific foreground and background, then printing
+// the style is awesome too!).
 //
 // Have fun!
 //
