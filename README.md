@@ -20,7 +20,7 @@ There are a few examples in the examples directory if you want to see a very
 simplified version of what you can do with chalk.
 
 The following code:
-```
+```go
 package main
 
 import (
