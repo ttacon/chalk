@@ -23,7 +23,8 @@ func DetectTerminal() {
 	// on linux it's a different value
 	var termios syscall.Termios
 	_, _, err := syscall.Syscall6(syscall.SYS_IOCTL, os.Stdout.Fd(), syscall.TIOCGETA, uintptr(unsafe.Pointer(&termios)), 0, 0, 0)
-	if err != 0 {
+
+	if err == 0 {
 		return
 	}
 
