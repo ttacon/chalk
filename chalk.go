@@ -20,10 +20,16 @@ func (c Color) Value() int {
 // (whatever the previous background color was, it is
 // left alone).
 func (c Color) Color(val string) string {
+	if c.value == -1 {
+		return val
+	}
 	return fmt.Sprintf("%s%s%s", c, val, ResetColor)
 }
 
 func (c Color) String() string {
+	if c.value == -1 {
+		return ""
+	}
 	return fmt.Sprintf("\u001b[%dm", 30+c.value)
 }
 
@@ -57,6 +63,9 @@ func (t TextStyle) TextStyle(val string) string {
 // text styles must be wrapped around the text they are meant to style.
 // As such, use TextStyle() or Style.Style() instead.
 func (t TextStyle) String() string {
+	if t == emptyTextStyle {
+		return ""
+	}
 	return fmt.Sprintf("%s%s", t.start, t.stop)
 }
 
@@ -141,6 +150,7 @@ var (
 	Cyan       = Color{6}
 	White      = Color{7}
 	ResetColor = Color{9}
+	noColor    = Color{-1}
 
 	// Text Styles
 	Bold          = TextStyle{1, 22}
