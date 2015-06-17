@@ -4,7 +4,6 @@
 package chalk
 
 import (
-	"os"
 	"syscall"
 	"unsafe"
 )
@@ -17,12 +16,12 @@ import (
 //
 // The detection component of this function was taken, without hesitation, from
 // golang.org/x/crypto/ssh/terminal.
-func DetectTerminal() {
+func DetectTerminal(fd uintptr) {
 
 	// TODO(ttacon): fix syscall.TIOCGETA = ioctlReadTermios
 	// on linux it's a different value
 	var termios syscall.Termios
-	_, _, err := syscall.Syscall6(syscall.SYS_IOCTL, os.Stdout.Fd(), syscall.TIOCGETA, uintptr(unsafe.Pointer(&termios)), 0, 0, 0)
+	_, _, err := syscall.Syscall6(syscall.SYS_IOCTL, fd, syscall.TIOCGETA, uintptr(unsafe.Pointer(&termios)), 0, 0, 0)
 
 	if err == 0 {
 		return

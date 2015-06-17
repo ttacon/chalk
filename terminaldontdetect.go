@@ -10,4 +10,4 @@ package chalk
 //
 // The detection component of this function was taken, without hesitation, from
 // golang.org/x/crypto/ssh/terminal.
-func DetectTerminal() {}
+func DetectTerminal(_ uintptr) {}
