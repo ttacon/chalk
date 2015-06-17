@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/ttacon/chalk"
 )
 
 func main() {
-	chalk.DetectTerminal()
+	chalk.DetectTerminal(os.Stdout.Fd())
 
 	// You can just use colors
 	fmt.Println(chalk.Red, "Writing in colors", chalk.Cyan, "is so much fun", chalk.Reset)
