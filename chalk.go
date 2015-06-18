@@ -118,12 +118,20 @@ func (s *style) WithForeground(col Color) Style {
 
 func (s *style) String() string {
 	var toReturn string
-	toReturn = fmt.Sprintf("\u001b[%dm", 40+s.background.Value())
-	return toReturn + fmt.Sprintf("\u001b[%dm", 30+s.foreground.Value())
+	if s.background != noColor {
+		toReturn = fmt.Sprintf("\u001b[%dm", 40+s.background.Value())
+	}
+	if s.foreground != noColor {
+		toReturn += fmt.Sprintf("\u001b[%dm", 30+s.foreground.Value())
+	}
+	return toReturn
 }
 
 func (s *style) Style(val string) string {
-	return fmt.Sprintf("%s%s%s", s, s.textStyle.TextStyle(val), Reset)
+	if s.textStyle != emptyTextStyle {
+		return fmt.Sprintf("%s%s%s", s, s.textStyle.TextStyle(val), Reset)
+	}
+	return val
 }
 
 func (s *style) Foreground(col Color) {

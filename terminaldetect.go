@@ -44,4 +44,9 @@ func DetectTerminal(fd uintptr) {
 	Inverse = emptyTextStyle
 	Hidden = emptyTextStyle
 	Strikethrough = emptyTextStyle
+
+	Reset = &style{
+		foreground: noColor,
+		background: noColor,
+	}
 }
