@@ -45,7 +45,7 @@ type TextStyle struct {
 	start, stop textStyleDemarcation
 }
 
-// TexStyle styles the given string using the desired text style.
+// TextStyle styles the given string using the desired text style.
 func (t TextStyle) TextStyle(val string) string {
 	if t == emptyTextStyle {
 		return val
@@ -132,6 +132,7 @@ func (s *style) WithTextStyle(textStyle TextStyle) Style {
 
 var (
 	// Colors
+
 	Black      = Color{0}
 	Red        = Color{1}
 	Green      = Color{2}
@@ -143,6 +144,7 @@ var (
 	ResetColor = Color{9}
 
 	// Text Styles
+
 	Bold          = TextStyle{1, 22}
 	Dim           = TextStyle{2, 22}
 	Italic        = TextStyle{3, 23}
