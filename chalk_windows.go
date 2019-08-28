@@ -24,7 +24,6 @@ func (c Color) Color(val string) string {
 }
 
 func (c Color) String() string {
-	// return fmt.Sprintf("\u001b[%dm", 30+c.value)
 	return ""
 }
 
@@ -48,10 +47,6 @@ type TextStyle struct {
 
 // TextStyle styles the given string using the desired text style.
 func (t TextStyle) TextStyle(val string) string {
-	// if t == emptyTextStyle {
-	// 	return val
-	// }
-	// return fmt.Sprintf("%s%s%s", t.start, val, t.stop)
 	return val
 }
 
@@ -59,7 +54,6 @@ func (t TextStyle) TextStyle(val string) string {
 // text styles must be wrapped around the text they are meant to style.
 // As such, use TextStyle() or Style.Style() instead.
 func (t TextStyle) String() string {
-	// return fmt.Sprintf("%s%s", t.start, t.stop)
 	return ""
 }
 
@@ -111,14 +105,10 @@ func (s *style) WithForeground(col Color) Style {
 }
 
 func (s *style) String() string {
-	// var toReturn string
-	// toReturn = fmt.Sprintf("\u001b[%dm", 40+s.background.Value())
-	// return toReturn + fmt.Sprintf("\u001b[%dm", 30+s.foreground.Value())
 	return ""
 }
 
 func (s *style) Style(val string) string {
-	// return fmt.Sprintf("%s%s%s", s, s.textStyle.TextStyle(val), Reset)
 	return ""
 }
 
