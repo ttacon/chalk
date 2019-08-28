@@ -1,5 +1,3 @@
-// +build !windows
-
 package chalk
 
 import "fmt"
@@ -22,11 +20,11 @@ func (c Color) Value() int {
 // (whatever the previous background color was, it is
 // left alone).
 func (c Color) Color(val string) string {
-	return fmt.Sprintf("%s%s%s", c, val, ResetColor)
+	return val
 }
 
 func (c Color) String() string {
-	return fmt.Sprintf("\u001b[%dm", 30+c.value)
+	return ""
 }
 
 // NewStyle creates a style with a foreground of the
@@ -49,17 +47,14 @@ type TextStyle struct {
 
 // TextStyle styles the given string using the desired text style.
 func (t TextStyle) TextStyle(val string) string {
-	if t == emptyTextStyle {
-		return val
-	}
-	return fmt.Sprintf("%s%s%s", t.start, val, t.stop)
+	return val
 }
 
 // NOTE: this function specifically does not work as desired because
 // text styles must be wrapped around the text they are meant to style.
 // As such, use TextStyle() or Style.Style() instead.
 func (t TextStyle) String() string {
-	return fmt.Sprintf("%s%s", t.start, t.stop)
+	return ""
 }
 
 // NewStyle creates a style starting with the current TextStyle
@@ -110,13 +105,11 @@ func (s *style) WithForeground(col Color) Style {
 }
 
 func (s *style) String() string {
-	var toReturn string
-	toReturn = fmt.Sprintf("\u001b[%dm", 40+s.background.Value())
-	return toReturn + fmt.Sprintf("\u001b[%dm", 30+s.foreground.Value())
+	return ""
 }
 
 func (s *style) Style(val string) string {
-	return fmt.Sprintf("%s%s%s", s, s.textStyle.TextStyle(val), Reset)
+	return ""
 }
 
 func (s *style) Foreground(col Color) {
