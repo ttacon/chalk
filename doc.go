@@ -54,6 +54,18 @@
 // print your text with a specific foreground and background, then printing
 // the style is awesome too!).
 //
+//
+// Disabling Colors
+//
+// Color and style formatting can be toggled globally via SetEnabled:
+//
+//   chalk.SetEnabled(false) // formatters return plain text without ANSI codes
+//   chalk.SetEnabled(true)  // re-enable ANSI formatting
+//
+// chalk checks the NO_COLOR environment variable upon initialization,
+// disabling color if NO_COLOR is present and non-empty. Call CheckNoColor()
+// to re-evaluate the environment variable at runtime.
+//
 // Have fun!
 //
 package chalk

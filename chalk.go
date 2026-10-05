@@ -1,6 +1,43 @@
 package chalk
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"sync"
+)
+
+var (
+	enabledLock sync.RWMutex
+	enabled     = true
+)
+
+func init() {
+	CheckNoColor()
+}
+
+// CheckNoColor checks the NO_COLOR environment variable. If set and non-empty,
+// it disables color and style formatting globally and returns true.
+func CheckNoColor() bool {
+	if os.Getenv("NO_COLOR") != "" {
+		SetEnabled(false)
+		return true
+	}
+	return false
+}
+
+// SetEnabled enables or disables color and style formatting globally.
+func SetEnabled(val bool) {
+	enabledLock.Lock()
+	defer enabledLock.Unlock()
+	enabled = val
+}
+
+// Enabled returns whether color and style formatting is globally enabled.
+func Enabled() bool {
+	enabledLock.RLock()
+	defer enabledLock.RUnlock()
+	return enabled
+}
 
 // Color represents one of the ANSI color escape codes.
 // http://en.wikipedia.org/wiki/ANSI_escape_code#Colors
@@ -20,10 +57,16 @@ func (c Color) Value() int {
 // (whatever the previous background color was, it is
 // left alone).
 func (c Color) Color(val string) string {
+	if !Enabled() {
+		return val
+	}
 	return fmt.Sprintf("%s%s%s", c, val, ResetColor)
 }
 
 func (c Color) String() string {
+	if !Enabled() {
+		return ""
+	}
 	return fmt.Sprintf("\u001b[%dm", 30+c.value)
 }
 
@@ -36,6 +79,9 @@ func (c Color) NewStyle() Style {
 type textStyleDemarcation int
 
 func (t textStyleDemarcation) String() string {
+	if !Enabled() {
+		return ""
+	}
 	return fmt.Sprintf("\u001b[%dm", t)
 }
 
@@ -47,7 +93,7 @@ type TextStyle struct {
 
 // TextStyle styles the given string using the desired text style.
 func (t TextStyle) TextStyle(val string) string {
-	if t == emptyTextStyle {
+	if t == emptyTextStyle || !Enabled() {
 		return val
 	}
 	return fmt.Sprintf("%s%s%s", t.start, val, t.stop)
@@ -57,6 +103,9 @@ func (t TextStyle) TextStyle(val string) string {
 // text styles must be wrapped around the text they are meant to style.
 // As such, use TextStyle() or Style.Style() instead.
 func (t TextStyle) String() string {
+	if !Enabled() {
+		return ""
+	}
 	return fmt.Sprintf("%s%s", t.start, t.stop)
 }
 
@@ -108,12 +157,18 @@ func (s *style) WithForeground(col Color) Style {
 }
 
 func (s *style) String() string {
+	if !Enabled() {
+		return ""
+	}
 	var toReturn string
 	toReturn = fmt.Sprintf("\u001b[%dm", 40+s.background.Value())
 	return toReturn + fmt.Sprintf("\u001b[%dm", 30+s.foreground.Value())
 }
 
 func (s *style) Style(val string) string {
+	if !Enabled() {
+		return val
+	}
 	return fmt.Sprintf("%s%s%s", s, s.textStyle.TextStyle(val), Reset)
 }
 
